@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Application</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #e3f2fd; /* Light blue background */
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007BFF;
+            color: white;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Visa Application Form</h2>
+        <form   onsubmit="return validateForm()">
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname">
+            <span id="fnameError" class="error"></span>
+
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname">
+            <span id="lnameError" class="error"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <span id="emailError" class="error"></span>
+
+            <label for="mobile">Mobile Number:</label>
+            <input type="text" id="mobile" name="mobile">
+            <span id="mobileError" class="error"></span>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob">
+            <span id="dobError" class="error"></span>
+
+            <label for="passport">Passport Number:</label>
+            <input type="text" id="passport" name="passport">
+            <span id="passportError" class="error"></span>
+
+            <label for="country">Select Country:</label>
+            <select id="country" name="country" onchange="checkVisa()">
+                <option value="">Select Country</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="India">India</option>
+                <option value="UK">UK</option>
+                <option value="Australia">Australia</option>
+            </select>
+            <span id="countryError" class="error"></span>
+
+            <div id="visaMessage" class="result"></div>
+
+            <button type="submit">Apply for Visa</button>
+        </form>
+    </div>
+
+    <script>
+        function checkVisa() {
+            let country = document.getElementById("country").value;
+            let visaMessage = document.getElementById("visaMessage");
+            
+            let visaDetails = {
+                "USA": "Visa required for most applicants.",
+                "Canada": "Visa required unless you have an eTA.",
+                "India": "Visa required before travel.",
+                "UK": "Visa depends on the duration of stay.",
+                "Australia": "eVisa available for eligible travelers."
+            };
+
+            if (country in visaDetails) {
+                visaMessage.innerHTML = `Visa Requirement: <strong>${visaDetails[country]}</strong>`;
+                visaMessage.style.color = "green";
+            } else {
+                visaMessage.innerHTML = "Please select a country.";
+                visaMessage.style.color = "red";
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            let fname = document.getElementById("fname").value;
+            let lname = document.getElementById("lname").value;
+            let email = document.getElementById("email").value;
+            let mobile = document.getElementById("mobile").value;
+            let dob = document.getElementById("dob").value;
+            let passport = document.getElementById("passport").value;
+            let country = document.getElementById("country").value;
+
+            document.getElementById("fnameError").innerText = fname ? "" : "First name is required.";
+            document.getElementById("lnameError").innerText = lname ? "" : "Last name is required.";
+            document.getElementById("emailError").innerText = email ? "" : "Email is required.";
+            document.getElementById("mobileError").innerText = mobile ? "" : "Mobile number is required.";
+            document.getElementById("dobError").innerText = dob ? "" : "Date of birth is required.";
+            document.getElementById("passportError").innerText = passport ? "" : "Passport number is required.";
+            document.getElementById("countryError").innerText = country ? "" : "Please select a country.";
+
+            if (!fname || !lname || !email || !mobile || !dob || !passport || !country) {
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+
+</body>
+</html>
+
